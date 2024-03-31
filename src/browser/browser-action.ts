@@ -184,20 +184,23 @@ export class BrowserActionAPI extends EventEmitter {
   }
 
   public getAllInTab(tabId: number): IBrowserAction[] {
-    const tab = webContents.fromId(tabId);
-    if (!tab) return [];
+    const tabs = webContents.getAllWebContents(); // Get all web contents
+    const actions: IBrowserAction[] = [];
 
-    const { session } = tab;
-    const actions = this.getAllInSession(session);
+    for (const tab of tabs) {
+      if (tab.id === tabId) {
+        const { session } = tab;
+        const sessionActions = this.sessionActionMap.get(session);
+        if (!sessionActions) return actions;
 
-    return actions.map((action) =>
-      action.tabs.has(tabId)
-        ? {
-            ...action,
-            ...action.tabs.get(tabId),
-          }
-        : action,
-    );
+        const action = sessionActions.get(extensionId);
+        if (action) {
+          actions.push(action);
+        }
+      }
+    }
+
+    return actions;
   }
 
   // TODO(sentialx): Tab in callback, fire if the browser action has no popup.
