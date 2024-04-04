@@ -1,6 +1,6 @@
 {
   "name": "electron-extensions",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "Implementation of Chrome extension APIs for Wexond.",
   "homepage": "https://github.com/IroniumStudios/electron-extensions-updated/blob/master/README.md",
   "author": "Damon Smith <cleverdamontoutube@gmail.com>",
