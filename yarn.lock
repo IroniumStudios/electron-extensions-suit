@@ -783,10 +783,10 @@ electron-to-chromium@^1.4.668:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.721.tgz#a9ee55ba7e54d9ecbcc19825116f3752e7d60ef2"
   integrity sha512-k1x2r6foI8iJOp+1qTxbbrrWMsOiHkzGBYwYigaq+apO1FSqtn44KTo3Sy69qt7CRr7149zTcsDvH7MUKsOuIQ==
 
-electron@^29.1.6:
-  version "29.1.6"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-29.1.6.tgz#3804545a7570e88717f01e02ec871c667c55e596"
-  integrity sha512-UIYfpHR9gRBFKHyejHuXUVQ7nNzZRnoPVOHlijkvqR+DSLwgJ2ZcVVt0LNduNeO8PhPkY1+6kHonL52OTC1cOw==
+electron@^29.2.0:
+  version "29.2.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-29.2.0.tgz#98e9d45dcebda124fb0bd1ff20fc509ec692101c"
+  integrity sha512-ALKrCN52RG4g9prx4DriXSPnY5WoiyRUCNp7zEVQuoiNOpHTNqMMpRidQAHzntV4hajF1LMWHVoBkwqIs1jHhg==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^20.9.0"
@@ -2109,7 +2109,7 @@ webpack-cli@5.1.4:
     rechoir "^0.8.0"
     webpack-merge "^5.7.3"
 
-webpack-merge@5.10.0, webpack-merge@^5.7.3:
+webpack-merge@^5.10.0, webpack-merge@^5.7.3:
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-5.10.0.tgz#a3ad5d773241e9c682803abf628d4cd62b8a4177"
   integrity sha512-+4zXKdx7UnO+1jaN4l2lHVD+mFvnlZQP/6ljaJVb4SZiwIKeUnrT5l0gkT8z+n4hKpC+jpOv6O9R+gLtag7pSA==
