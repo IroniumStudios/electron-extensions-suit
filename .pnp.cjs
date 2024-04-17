@@ -32,7 +32,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/eslint-plugin", "virtual:64e451a32b24842c9b61137ab4013894fad608aa109df2224e968951005cfd02f585aa2e64aef88ff3c1e5c0fdbc3c0c945904c5b0ee23254b811732cdd32e22#npm:7.6.0"],\
           ["@typescript-eslint/parser", "virtual:64e451a32b24842c9b61137ab4013894fad608aa109df2224e968951005cfd02f585aa2e64aef88ff3c1e5c0fdbc3c0c945904c5b0ee23254b811732cdd32e22#npm:7.6.0"],\
           ["cross-env", "npm:7.0.3"],\
-          ["electron", "npm:29.3.0"],\
+          ["electron", "npm:30.0.0"],\
           ["eslint", "npm:9.0.0"],\
           ["eslint-config-prettier", "virtual:64e451a32b24842c9b61137ab4013894fad608aa109df2224e968951005cfd02f585aa2e64aef88ff3c1e5c0fdbc3c0c945904c5b0ee23254b811732cdd32e22#npm:9.1.0"],\
           ["eslint-plugin-prettier", "virtual:64e451a32b24842c9b61137ab4013894fad608aa109df2224e968951005cfd02f585aa2e64aef88ff3c1e5c0fdbc3c0c945904c5b0ee23254b811732cdd32e22#npm:5.1.3"],\
@@ -1407,10 +1407,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["electron", [\
-      ["npm:29.3.0", {\
-        "packageLocation": "./.yarn/unplugged/electron-npm-29.3.0-63f5fa294b/node_modules/electron/",\
+      ["npm:30.0.0", {\
+        "packageLocation": "./.yarn/unplugged/electron-npm-30.0.0-1b0eccf4e1/node_modules/electron/",\
         "packageDependencies": [\
-          ["electron", "npm:29.3.0"],\
+          ["electron", "npm:30.0.0"],\
           ["@electron/get", "npm:2.0.3"],\
           ["@types/node", "npm:20.12.7"],\
           ["extract-zip", "npm:2.0.1"]\
@@ -1429,7 +1429,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/eslint-plugin", "virtual:64e451a32b24842c9b61137ab4013894fad608aa109df2224e968951005cfd02f585aa2e64aef88ff3c1e5c0fdbc3c0c945904c5b0ee23254b811732cdd32e22#npm:7.6.0"],\
           ["@typescript-eslint/parser", "virtual:64e451a32b24842c9b61137ab4013894fad608aa109df2224e968951005cfd02f585aa2e64aef88ff3c1e5c0fdbc3c0c945904c5b0ee23254b811732cdd32e22#npm:7.6.0"],\
           ["cross-env", "npm:7.0.3"],\
-          ["electron", "npm:29.3.0"],\
+          ["electron", "npm:30.0.0"],\
           ["eslint", "npm:9.0.0"],\
           ["eslint-config-prettier", "virtual:64e451a32b24842c9b61137ab4013894fad608aa109df2224e968951005cfd02f585aa2e64aef88ff3c1e5c0fdbc3c0c945904c5b0ee23254b811732cdd32e22#npm:9.1.0"],\
           ["eslint-plugin-prettier", "virtual:64e451a32b24842c9b61137ab4013894fad608aa109df2224e968951005cfd02f585aa2e64aef88ff3c1e5c0fdbc3c0c945904c5b0ee23254b811732cdd32e22#npm:5.1.3"],\
