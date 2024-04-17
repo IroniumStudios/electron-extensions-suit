@@ -54,6 +54,7 @@ const resolveIconPaths = (extensionUrl: string, icon: IconType): IconType => {
 export declare interface BrowserActionAPI {
   on(event: 'updated', listener: (action: IBrowserAction) => void): this;
   on(event: 'loaded', listener: (action: IBrowserAction) => void): this;
+  on(event: 'clicked', listener: (extensionId: string) => void): this;
   on(event: string, listener: Function): this;
 }
 
@@ -102,6 +103,12 @@ export class BrowserActionAPI extends EventEmitter {
       if (actionToUpdate[propName] !== newValue) {
         actionToUpdate[propName] = newValue;
         this.emit('updated', action);
+      }
+
+      // Fire the callback if the browser action has no popup
+      if (propName === 'popup' && !newValue) {
+        // Call a function to handle the scenario when popup is not defined
+        this.handleNoPopupAction(action, tabId);
       }
     };
 
@@ -193,18 +200,54 @@ export class BrowserActionAPI extends EventEmitter {
         const sessionActions = this.sessionActionMap.get(session);
         if (!sessionActions) return actions;
 
-        const action = sessionActions.get(extensionId);
-        if (action) {
+        sessionActions.forEach((action) => {
           actions.push(action);
-        }
+          const onClickListener = (extensionId: string) => {
+            this.onClicked(extensionId, tabId);
+          };
+          // Add click event listener for each action
+          this.on('clicked', onClickListener);
+        });
       }
     }
 
     return actions;
   }
 
-  // TODO(sentialx): Tab in callback, fire if the browser action has no popup.
-  public onClicked(extensionId: string) {
-    this.emit('clicked', extensionId);
+  private handleNoPopupAction(action: IBrowserAction, tabId: number) {
+    // Check if there are any defined tabs for the action
+    if (action.tabs.size === 0) {
+      console.log(`No popup defined for action with extension ID ${action.extensionId} in tab ${tabId}`);
+    } else {
+      // Iterate through the tabs and check if any tab has a defined popup
+      let hasPopup = false;
+      action.tabs.forEach((tab) => {
+        if (tab.popup) {
+          hasPopup = true;
+        }
+      });
+      // If no tab has a defined popup, log the message
+      if (!hasPopup) {
+        console.log(`No popup defined for action with extension ID ${action.extensionId} in tab ${tabId}`);
+      }
+    }
+  }
+
+  public onClicked(extensionId: string, tabId?: number) {
+    const action = this.getActionByExtensionIdAndTabId(extensionId, tabId);
+    if (action && action.popup) {
+      // If the action has a popup, emit the event to display the popup
+      this.emit('clicked', extensionId);
+    }
+  }
+
+  private getActionByExtensionIdAndTabId(extensionId: string, tabId?: number): IBrowserAction | undefined {
+    if (tabId !== undefined) {
+      const sessionActions = this.sessionActionMap.get(webContents.fromId(tabId).session);
+      if (sessionActions) {
+        return sessionActions.get(extensionId);
+      }
+    }
+    return undefined;
   }
 }
