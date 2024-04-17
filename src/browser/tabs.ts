@@ -1,5 +1,5 @@
 import { Tab } from '../interfaces/tabs';
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, WebContents, WebContentsView } from 'electron';
 import { promises } from 'fs';
 import { resolve } from 'path';
 import { sessionFromIpcEvent } from '../utils/session';
@@ -8,11 +8,22 @@ import { EventEmitter } from 'events';
 import { Extensions } from '.';
 import { HandlerFactory } from './handler-factory';
 
-export const getParentWindowOfTab = (tab: Tab) => {
+interface Tab {
+  insertCSS: any;
+  reload: any;
+  reloadIgnoringCache: any;
+  favicon: any;
+  getType(): string;
+  webContents?: WebContents;
+  getWebContentsView?(): WebContentsView;
+}
+
+export const getParentWindowOfTab = (tab: Tab): BrowserWindow | undefined => {
   switch (tab.getType()) {
     case 'window':
-      return BrowserWindow.fromWebContents(tab);
-    case 'browserView':
+      return BrowserWindow.fromWebContents(tab.webContents!);
+    case 'webContentsView':
+      return tab.getWebContentsView()?.getBrowserWindow();
     case 'webview':
       return (tab as any).getOwnerBrowserWindow();
   }
@@ -79,20 +90,25 @@ export class TabsAPI extends EventEmitter implements ITabsEvents {
   ) {
     const tab = this.getTabById(tabId);
     if (!tab) return null;
-
+  
     const { url, muted, active } = updateProperties;
-
-    // TODO: validate URL, prevent 'javascript:'
-    if (url) await tab.loadURL(url);
-
+  
+    // Validate URL, prevent 'javascript:'
+    if (url && !url.startsWith('javascript:')) {
+      await tab.loadURL(url);
+    } else {
+      // Log or handle the invalid URL here
+      console.error('Invalid URL provided:', url);
+    }
+  
     if (typeof muted === 'boolean') tab.setAudioMuted(muted);
-
+  
     if (active) this.activate(tabId);
-
+  
     this.onUpdated(tab);
-
+  
     return this.createDetails(tab);
-  }
+  }  
 
   public activate(tabId: number, ...additionalArgs: any[]) {
     const tab = this.getTabById(tabId);
@@ -144,7 +160,7 @@ export class TabsAPI extends EventEmitter implements ITabsEvents {
 
   public query(info: chrome.tabs.QueryInfo = {}) {
     const isSet = (value: any) => typeof value !== 'undefined';
-
+  
     const tabs = Array.from(this.tabs)
       .map(this.getDetails)
       .filter((tab) => {
@@ -165,26 +181,23 @@ export class TabsAPI extends EventEmitter implements ITabsEvents {
         if (isSet(info.status) && info.status !== tab.status) return false;
         if (isSet(info.windowId) && info.windowId !== tab.windowId)
           return false;
-        if (isSet(info.title) && info.title !== tab.title) return false; // TODO: pattern match
+        if (isSet(info.title) && !new RegExp(info.title).test(tab.title)) return false;
         if (
           isSet(info.url) &&
           info.url !== tab.url &&
-          info.url !== '<all_urls>'
+          info.url !== '<all_urls>' &&
+          !new RegExp(info.url).test(tab.url)
         )
-          return false; // TODO: match URL pattern
+          return false;
         // if (isSet(info.currentWindow)) return false
         // if (isSet(info.lastFocusedWindow)) return false
         // if (isSet(info.windowType) && info.windowType !== tab.windowType) return false
         // if (isSet(info.index) && info.index !== tab.index) return false
         return true;
-      })
-      .map((tab, index) => {
-        tab.index = index;
-        return tab;
       });
-
+  
     return tabs;
-  }
+  }  
 
   public async create(
     details: chrome.tabs.CreateProperties,
