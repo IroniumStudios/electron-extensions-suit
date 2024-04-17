@@ -2,11 +2,12 @@ import { PROTOCOL_SCHEME } from '../constants';
 import { randomId } from './string';
 import { ipcMain } from 'electron';
 
-// TODO: https://github.com/electron/electron/pull/22217
+// Check if the given WebContents object is a background page
 export const isBackgroundPage = (wc: Electron.WebContents) =>
-  // TODO: wc.getType() === 'backgroundPage';
-  wc.getType() === 'remote' && wc.getURL().startsWith(PROTOCOL_SCHEME);
+  // Using wc.getType() to check if the WebContents is of type 'backgroundPage'
+  wc.getType() === 'backgroundPage';
 
+// Send a message to a WebContents object and return a promise that resolves with the response
 export const webContentsInvoke = (
   wc: Electron.WebContents,
   channel: string,
@@ -15,7 +16,9 @@ export const webContentsInvoke = (
   new Promise((resolve) => {
     const id = randomId();
 
+    // Listen for a response from the WebContents
     ipcMain.once(`${channel}-${id}`, (e: any, ...a: any[]) => resolve(...a));
 
+    // Send the message to the WebContents with an ID
     wc.send(channel, ...args, id);
   });
