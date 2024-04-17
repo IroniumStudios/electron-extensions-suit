@@ -1,6 +1,6 @@
 {
   "name": "electron-extensions",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "description": "Implementation of Chrome extension APIs for Wexond.",
   "homepage": "https://github.com/IroniumStudios/electron-extensions-updated/blob/master/README.md",
   "author": "Damon Smith <cleverdamontoutube@gmail.com>",
@@ -34,7 +34,7 @@
     "@typescript-eslint/eslint-plugin": "7.6.0",
     "@typescript-eslint/parser": "7.6.0",
     "cross-env": "7.0.3",
-    "electron": "^29.3.0",
+    "electron": "^30.0.0",
     "eslint": "9.0.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.1.3",
