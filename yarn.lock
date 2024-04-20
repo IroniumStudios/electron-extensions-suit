@@ -1038,9 +1038,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-extensions@workspace:.":
+"electron-extensions-suit@workspace:.":
   version: 0.0.0-use.local
-  resolution: "electron-extensions@workspace:."
+  resolution: "electron-extensions-suit@workspace:."
   dependencies:
     "@types/chrome": "npm:0.0.266"
     "@types/node": "npm:20.12.7"
