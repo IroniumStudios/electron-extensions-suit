@@ -1,11 +1,14 @@
 # electron-extensions-suit
 
+### Notice
+   this project is a fork of the electron-extensions package, read the legal-stuff.md file for me info.
+
 `electron-extensions` will allow you to use Chrome extensions APIs with Electron.
 
 # Installation
 
 ```bash
-$ npm install electron-extensions-suit
+$ npm install electron-extensions
 ```
 
 # Usage
@@ -80,6 +83,85 @@ extensionsRenderer.on('create-tab', (details, callback) => {
   const tab = createTab(details); // Some create tab method...
   callback(tab.id);
 });
+```
+
+#### More Complex Example withen the window-service.ts file:
+
+```typescript
+import { AppWindow } from './windows/app';
+import { extensions } from 'electron-extensions-suit';
+import { app, BrowserWindow, ipcMain } from 'electron';
+import { SessionsService } from './sessions-service';
+
+export class WindowsService {
+  public list: AppWindow[] = [];
+
+  public current: AppWindow;
+
+  public lastFocused: AppWindow;
+
+  constructor() {
+    if (process.env.ENABLE_EXTENSIONS) {
+      extensions.tabs.on('activated', (tabId, windowId, focus) => {
+        const win = this.list.find((x) => x.id === windowId);
+        win.viewManager.select(tabId, focus === undefined ? true : focus);
+      });
+
+      extensions.tabs.onCreateDetails = (tab, details) => {
+        const win = this.findByWebContentsView(tab.id);
+        details.windowId = win.id;
+      };
+
+      extensions.windows.onCreate = async (details) => {
+        return this.open(details.incognito).id;
+      };
+
+      extensions.tabs.onCreate = async (details) => {
+        const win =
+          this.list.find((x) => x.id === details.windowId) || this.lastFocused;
+
+        if (!win) return -1;
+
+        const view = win.viewManager.create(details);
+        return view.id;
+      };
+    }
+
+    ipcMain.handle('get-tab-zoom', (e, tabId) => {
+      return this.findByWebContentsView(tabId).viewManager.views.get(tabId)
+        .webContents.zoomFactor;
+    });
+  }
+
+  public open(incognito = false) {
+    const window = new AppWindow(incognito);
+    this.list.push(window);
+
+    if (process.env.ENABLE_EXTENSIONS) {
+      extensions.windows.observe(window.win);
+    }
+
+    window.win.on('focus', () => {
+      this.lastFocused = window;
+    });
+
+    return window;
+  }
+
+  public findByWebContentsView(webContentsId: number) {
+    return this.list.find((x) => !!x.viewManager.views.get(webContentsId));
+  }
+
+  public fromBrowserWindow(browserWindow: BrowserWindow) {
+    return this.list.find((x) => x.id === browserWindow.id);
+  }
+
+  public broadcast(channel: string, ...args: unknown[]) {
+    this.list.forEach((appWindow) =>
+      appWindow.win.webContents.send(channel, ...args),
+    );
+  }
+}
 ```
 
 Returns:
