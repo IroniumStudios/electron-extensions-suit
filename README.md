@@ -1,11 +1,11 @@
-# electron-extensions
+# electron-extensions-suit
 
 `electron-extensions` will allow you to use Chrome extensions APIs with Electron.
 
 # Installation
 
 ```bash
-$ npm install electron-extensions
+$ npm install electron-extensions-suit
 ```
 
 # Usage

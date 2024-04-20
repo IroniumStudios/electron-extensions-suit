@@ -1,18 +1,18 @@
 {
-  "name": "electron-extensions",
-  "version": "7.0.3",
+  "name": "electron-extensions-suit",
+  "version": "1.0.0-beta.2",
   "description": "Implementation of Chrome extension APIs for Wexond.",
-  "homepage": "https://github.com/IroniumStudios/electron-extensions-updated/blob/master/README.md",
+  "homepage": "https://github.com/IroniumStudios/electron-extensions-suit/blob/master/README.md",
   "author": "Damon Smith <cleverdamontoutube@gmail.com>",
   "license": "MIT",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IroniumStudios/electron-extensions-updated/tree/master.git"
+    "url": "git+https://github.com/IroniumStudios/electron-extensions-suit/tree/master.git"
   },
   "discussion": {
-    "url": "https://github.com/IroniumStudios/electron-extensions-updated/discussions"
+    "url": "https://github.com/IroniumStudios/electron-extensions-suit/discussions"
   },
   "scripts": {
     "lint": "eslint \"src/**/*.ts*\"",
