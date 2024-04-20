@@ -209,5 +209,61 @@ export const injectAPI = () => {
     chrome.storage.sync = chrome.storage.local;
   }
 
+  const storage = {
+    ...chrome.storage,
+    // New storage APIs can be added here
+    getBytesInUse: ipcInvoker('storage.getBytesInUse'),
+    onChanged: new IpcEvent('storage.onChanged'),
+  };
+  
+  const history = {
+    ...chrome.history,
+    search: ipcInvoker('history.search'),
+    getVisits: ipcInvoker('history.getVisits'),
+    addUrl: ipcInvoker('history.addUrl'),
+    deleteUrl: ipcInvoker('history.deleteUrl'),
+    deleteRange: ipcInvoker('history.deleteRange'),
+    deleteAll: ipcInvoker('history.deleteAll'),
+    onVisited: new IpcEvent('history.onVisited'),
+    onVisitRemoved: new IpcEvent('history.onVisitRemoved'),
+  };
+  
+  const i18n = {
+    ...chrome.i18n,
+    getAcceptLanguages: ipcInvoker('i18n.getAcceptLanguages'),
+    getMessage: ipcInvoker('i18n.getMessage'),
+    getUILanguage: ipcInvoker('i18n.getUILanguage'),
+    detectLanguage: ipcInvoker('i18n.detectLanguage'),
+  };
+  
+  const runtime = {
+    ...chrome.runtime,
+    getBackgroundPage: ipcInvoker('runtime.getBackgroundPage'),
+    openOptionsPage: ipcInvoker('runtime.openOptionsPage'),
+    getManifest: ipcInvoker('runtime.getManifest'),
+    setUninstallURL: ipcInvoker('runtime.setUninstallURL'),
+    reload: ipcInvoker('runtime.reload'),
+    requestUpdateCheck: ipcInvoker('runtime.requestUpdateCheck'),
+    sendMessage: ipcInvoker('runtime.sendMessage'),
+    sendNativeMessage: ipcInvoker('runtime.sendNativeMessage'),
+    onStartup: new IpcEvent('runtime.onStartup'),
+    onInstalled: new IpcEvent('runtime.onInstalled'),
+    onSuspend: new IpcEvent('runtime.onSuspend'),
+    onSuspendCanceled: new IpcEvent('runtime.onSuspendCanceled'),
+    onUpdateAvailable: new IpcEvent('runtime.onUpdateAvailable'),
+    onBrowserUpdateAvailable: new IpcEvent('runtime.onBrowserUpdateAvailable'),
+    onConnect: new IpcEvent('runtime.onConnect'),
+    onMessage: new IpcEvent('runtime.onMessage'),
+    onMessageExternal: new IpcEvent('runtime.onMessageExternal'),
+    onConnectExternal: new IpcEvent('runtime.onConnectExternal'),
+  };
+  
+  Object.assign(chrome, {
+    storage,
+    history,
+    i18n,
+    runtime,
+  });
+
   Object.freeze(chrome);
 };
