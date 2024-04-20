@@ -8,7 +8,7 @@
 # Installation
 
 ```bash
-$ npm install electron-extensions
+$ npm install electron-extensions-suit
 ```
 
 # Usage
